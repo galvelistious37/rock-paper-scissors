@@ -16,6 +16,13 @@ function game(){
     for(let i = 1; i < 6; i++){
         console.log(playRound());
     }
+    if(playerScore == computerScore){
+        console.log("Tie Game: No Winner");
+    } else {
+        let scoreText = `Your Score (${playerScore}) - Computer Score (${computerScore})`;
+        let winnerText = playerScore > computerScore ? `You WIN! ${scoreText}` : `You Lose! ${scoreText}`;
+        console.log(winnerText);
+    }
 }
 
 // Function to play a single round. Take player selection and
@@ -41,7 +48,14 @@ function getWinner(playerSelection, computerSelection){
     if (computerSelection == rock && playerSelection == scissors){
         computerValue =+3;
     }
-    return playerValue > computerValue;
+
+    if(playerValue > computerValue){
+        playerScore++;
+        return true;
+    } else {
+        computerScore++;
+        return false;
+    }
 }
 
 // Prompt the user and return input
