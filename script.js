@@ -1,3 +1,11 @@
+/*
+* Rock, Paper, Scissor game:
+*
+* A user plays five rounds against the computer to determine who is the winner. Best out of five wins. The user will input
+* a value of Rock, Paper, or Scissors and the computer will randomly generate a value of Rock, Paper, or Scissors. Draw rounds 
+* do not award a point to any player.
+*/
+
 // Instantiate constants
 const rock = "Rock"
 const paper = "Paper"
@@ -7,6 +15,7 @@ const scissors = "Scissors"
 let round = 1
 let playerScore = 0;
 let computerScore = 0;
+let keepPlaying = true;
 
 // Instantiate array
 let choices = [rock, paper, scissors];
@@ -25,8 +34,9 @@ function game(){
     }
 }
 
-// Function to play a single round. Take player selection and
-// computerPlay value as parameters to determine winner
+// Function to play a single round. Take player input and
+// computerPlay value and call a function to determine the winner.
+// Return a string stating whether the player wins, loses, or draws the round.
 function playRound(){
     let playerSelection = getPlayerSelection();
     let computerSelection = computerPlay();
@@ -39,6 +49,10 @@ function playRound(){
     }
 }
 
+// Take playerSelection and computerSelection as parameters and determine who won the round.
+// Winner is determined by which selection has the greater index number. If, however, player chooses
+// Rock and computer chooses Scissors (or vice versa) then Rock index value adds three to become greater
+// than the value of Scissors index.
 function getWinner(playerSelection, computerSelection){
     let playerValue = choices.indexOf(playerSelection);
     let computerValue = choices.indexOf(computerSelection);
@@ -109,4 +123,16 @@ function getArrayValueOfIndex(index){
     return choices[index];
 }
 
-game()
+// Ask to play again. Return boolean.
+function playAgain(){
+    let playAgainPrompt = `Play again? \nEnter 'Yes' to play again, enter anthing else to quit:`;
+    let promptDefaultYes = `Yes`;
+    return `Yes` == formattedInput(prompt(`${playAgainPrompt}`, `${promptDefaultYes}`));
+}
+
+// Let's play a game...
+while(keepPlaying){
+    game();
+    keepPlaying = playAgain();
+}
+
