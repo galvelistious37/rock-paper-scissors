@@ -131,6 +131,7 @@ function playAgain(){
 }
 
 // Let's play a game...
+alert("Open the developer tools to see console output");
 while(keepPlaying){
     game();
     keepPlaying = playAgain();
