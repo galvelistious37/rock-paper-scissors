@@ -127,7 +127,7 @@ function getArrayValueOfIndex(index){
 
 // Ask to play again. Return boolean.
 function playAgain(){
-    let playAgainPrompt = `Play again? \nEnter 'Yes' to play again, enter anthing else to quit:`;
+    let playAgainPrompt = `Play again? \nEnter 'Yes' to play again, enter anything else to quit:`;
     let promptDefaultYes = `Yes`;
     return `Yes` == formattedInput(prompt(`${playAgainPrompt}`, `${promptDefaultYes}`));
 }
