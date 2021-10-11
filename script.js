@@ -62,7 +62,7 @@ function getWinner(playerSelection, computerSelection){
         playerValue += 3;
     }
     if (computerSelection == rock && playerSelection == scissors){
-        computerValue =+3;
+        computerValue += 3;
     }
 
     if(playerValue > computerValue){
@@ -132,10 +132,17 @@ function playAgain(){
     return `Yes` == formattedInput(prompt(`${playAgainPrompt}`, `${promptDefaultYes}`));
 }
 
+// Rest the scores to 0
+function resetScores(){
+    playerScore = 0;
+    computerScore = 0;
+}
+
 // Let's play a game...
 alert("Open the developer tools to see console output");
 while(keepPlaying){
     game();
+    resetScores();
     keepPlaying = playAgain();
 }
 
