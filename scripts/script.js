@@ -1,11 +1,7 @@
 /*
 * Rock, Paper, Scissor game:
 *
-* A user plays five rounds against the computer to determine who is the winner. Best out of five wins. The user will input
-* a value of Rock, Paper, or Scissors and the computer will randomly generate a value of Rock, Paper, or Scissors. Draw rounds 
-* do not award a point to any player.
-*
-* Moved to a new directory and cloned a new project from github.
+* A user plays against the computer to determine who wins.
 */
 
 // Instantiate constants
