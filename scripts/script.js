@@ -14,7 +14,7 @@ const paper = "Paper"
 const scissors = "Scissors"
 
 // instantiate global variables
-let round = 1
+let round = 1;
 let playerScore = 0;
 let computerScore = 0;
 let keepPlaying = true;
