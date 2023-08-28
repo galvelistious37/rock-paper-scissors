@@ -1,1 +1,1 @@
-This program will start a game of "Rock, Paper, Scissors" against the computer. The use will enter a value of "Rock", "Paper", or "Scissors" and the program will compare that value against the random selection by the computer. The best of five matches wins.
+This program will start a game of "Rock, Paper, Scissors" against the computer. The use will click "Rock", "Paper", or "Scissors" button and the computer will select a random value. Images for each selection will be displayed on the screen and the winner will be outline in green.
