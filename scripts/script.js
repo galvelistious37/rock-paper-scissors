@@ -9,9 +9,15 @@
 */
 
 // Instantiate constants
-const rock = "Rock"
-const paper = "Paper"
-const scissors = "Scissors"
+const userSelectionDisplay = document.getElementById("user-selection")
+const computerSelectionDisplay = document.getElementById("computer-selection")
+const userChoiceImage = document.getElementById("user-image")
+const computerChoiceImage = document.getElementById("computer-image")
+const userCell = document.getElementById("user-cell")
+const computerCell = document.getElementById("computer-cell")
+
+const choices = document.querySelectorAll(".btn-choices")
+
 
 // instantiate global variables
 let round = 1;
@@ -19,130 +25,69 @@ let playerScore = 0;
 let computerScore = 0;
 let keepPlaying = true;
 
-// Instantiate array
-let choices = [rock, paper, scissors];
+let userSelection
+let computerSelection
 
-// Main game function to keep track of rounds
-function game(){
-    for(let i = 1; i < 6; i++){
-        console.log(playRound());
-    }
-    if(playerScore == computerScore){
-        console.log("Tie Game: No Winner");
-    } else {
-        let scoreText = `Your Score (${playerScore}) - Computer Score (${computerScore})`;
-        let winnerText = playerScore > computerScore ? `You WIN! ${scoreText}` : `You Lose! ${scoreText}`;
-        console.log(winnerText);
-    }
+function getUserSelection(){
+    userCell.style.border = "none";
+    computerCell.style.border = "none";
+
+    choices.forEach(choice => choice.addEventListener("click", function(e){
+        userSelection = e.target.id
+        userSelectionDisplay.innerHTML = `${formatted(userSelection)}`
+        getComputerSelection()
+        updateImages()
+        getWinner()
+    }))
 }
 
-// Function to play a single round. Take player input and
-// computerPlay value and call a function to determine the winner.
-// Return a string stating whether the player wins, loses, or draws the round.
-function playRound(){
-    let playerSelection = getPlayerSelection();
-    let computerSelection = computerPlay();
-    if(playerSelection === computerSelection){
-        return "Draw! You both picked " + playerSelection;
-    } else {
-        let winner = getWinner(playerSelection, computerSelection);
-    return winner ? "You Won! " + playerSelection + " beats " + computerSelection :
-        "You Lose! " + computerSelection + " beats " + playerSelection;
-    }
+function getComputerSelection(){
+    computerSelection = choices[Math.floor(Math.random() * choices.length)].getAttribute("id");
+    computerSelectionDisplay.innerHTML = `${formatted(computerSelection)}`
 }
 
-// Take playerSelection and computerSelection as parameters and determine who won the round.
-// Winner is determined by which selection has the greater index number. If, however, player chooses
-// Rock and computer chooses Scissors (or vice versa) then Rock index value adds three to become greater
-// than the value of Scissors index.
-function getWinner(playerSelection, computerSelection){
-    let playerValue = choices.indexOf(playerSelection);
-    let computerValue = choices.indexOf(computerSelection);
-    if(playerSelection == rock && computerSelection == scissors){
-        playerValue += 3;
-    }
-    if (computerSelection == rock && playerSelection == scissors){
-        computerValue += 3;
-    }
-
-    if(playerValue > computerValue){
-        playerScore++;
-        return true;
-    } else {
-        computerScore++;
-        return false;
-    }
+function updateImages(){
+    userChoiceImage.setAttribute("src", `./images/${userSelection}.png`)
+    userChoiceImage.setAttribute("class", `images`)
+    userChoiceImage.setAttribute("alt", `User selected image`)
+    computerChoiceImage.setAttribute("src", `./images/${computerSelection}.png`)
+    computerChoiceImage.setAttribute("class", `images`)
+    computerChoiceImage.setAttribute("alt", `Computer selected image`)
 }
 
-// Prompt the user and return input
-function getPlayerSelection(){
-    let keepGoing = true;
-    let promptChoices = ` ${choices[0]}, ${choices[1]}, or ${choices[2]}`;
-    let promptText = `Choose One: ${promptChoices}`;
-    let invalidChoice = `Invalid Selection - You must choose: ${promptChoices}`;
-    let input = formattedInput(prompt(`${promptText}`));
-    while(keepGoing){
-        if(!isInputValid(input)){
-            input = formattedInput(prompt(`${invalidChoice}`));
+function formatted(word){
+    return word.substring(0, 1).toUpperCase() + word.substring(1);
+}
+
+function highlight(cell, borderType){
+    cell.style.border = `${borderType}`
+}
+
+function getWinner(){
+    highlight(userCell, "none")
+    highlight(computerCell, "none")
+    if(userSelection === computerSelection){
+        highlight(userCell, "3px solid yellow")
+        highlight(computerCell, "3px solid yellow")
+    } else if(userSelection === "rock"){
+        if(computerSelection === "scissors"){
+            highlight(userCell, "3px solid green")
         } else {
-            keepGoing = false;
-        } 
-    }
-    input = formattedInput(input);
-    return input;
+            highlight(computerCell, "3px solid green")
+        }
+    }  else if(userSelection === "paper"){
+        if(computerSelection === "rock"){
+            highlight(userCell, "3px solid green")
+        } else {
+            highlight(computerCell, "3px solid green")
+        }
+    }  else if(userSelection === "scissors"){
+        if(computerSelection === "paper"){
+            highlight(userCell, "3px solid green")
+        } else {
+            highlight(computerCell, "3px solid green")
+        }
+    } 
 }
 
-// Verify the user input is valid
-function isInputValid(input){
-    return (input == choices[0] ||
-            input == choices[1] ||
-            input == choices[2]);
-}
-
-// Get a radomly selected value for computer's choice
-function computerPlay(){
-    return getArrayValueOfIndex(getRandomNumber());
-}
-
-// Returns a formatted input with a capitalized first letter and 
-// the rest of the word in lowercase.
-function formattedInput(input){
-    let charArr = input.split("");
-    charArr[0] = charArr[0].toUpperCase();
-    for(let i = 1; i < charArr.length; i++){
-        charArr[i] = charArr[i].toLowerCase();
-    }
-    return charArr.join("");
-}
-
-// return a random integer between 0 - 2
-function getRandomNumber(){
-    return Math.floor(Math.random() * 3);
-}
-
-// get the value of an array from given integer index
-function getArrayValueOfIndex(index){
-    return choices[index];
-}
-
-// Ask to play again. Return boolean.
-function playAgain(){
-    let playAgainPrompt = `Play again? \nEnter 'Yes' to play again, enter anything else to quit:`;
-    let promptDefaultYes = `Yes`;
-    return `Yes` == formattedInput(prompt(`${playAgainPrompt}`, `${promptDefaultYes}`));
-}
-
-// Rest the scores to 0
-function resetScores(){
-    playerScore = 0;
-    computerScore = 0;
-}
-
-// Let's play a game...
-alert("Open the developer tools to see console output");
-while(keepPlaying){
-    game();
-    resetScores();
-    keepPlaying = playAgain();
-}
-
+getUserSelection();
