@@ -11,22 +11,25 @@ const userChoiceImage = document.getElementById("user-image")
 const computerChoiceImage = document.getElementById("computer-image")
 const userCell = document.getElementById("user-cell")
 const computerCell = document.getElementById("computer-cell")
-
 const choices = document.querySelectorAll(".btn-choices")
 
-
 // instantiate global variables
-let round = 1;
-let playerScore = 0;
-let computerScore = 0;
-let keepPlaying = true;
-
 let userSelection
 let computerSelection
 
+/**
+ * Set the css border attribute for the passed in HTML element
+ * @param {*} element 
+ * @param {*} borderStyle 
+ */
+function setBorder(element, borderStyle){
+    element.style.border = `${borderStyle}`
+}
+
+
 function getUserSelection(){
-    userCell.style.border = "none";
-    computerCell.style.border = "none";
+    setBorder(userCell, "none")
+    setBorder(computerCell, "none")
 
     choices.forEach(choice => choice.addEventListener("click", function(e){
         userSelection = e.target.id
