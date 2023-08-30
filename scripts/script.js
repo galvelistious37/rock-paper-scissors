@@ -1,7 +1,6 @@
 /*
 * Rock, Paper, Scissor game:
-*
-* A user plays against the computer to determine who wins.
+* A user plays a round of ROck Paper Scissors against the computer
 */
 
 // Instantiate constants
@@ -11,37 +10,43 @@ const userChoiceImage = document.getElementById("user-image")
 const computerChoiceImage = document.getElementById("computer-image")
 const userCell = document.getElementById("user-cell")
 const computerCell = document.getElementById("computer-cell")
-
 const choices = document.querySelectorAll(".btn-choices")
-
+const winnerBorder = "3px solid green"
+const tieBorder = "3px solid yellow"
 
 // instantiate global variables
-let round = 1;
-let playerScore = 0;
-let computerScore = 0;
-let keepPlaying = true;
-
 let userSelection
 let computerSelection
 
-function getUserSelection(){
-    userCell.style.border = "none";
-    computerCell.style.border = "none";
-
+/**
+ * function to start the game
+ */
+function play(){
+    // Set event handler for buttons to return button id
     choices.forEach(choice => choice.addEventListener("click", function(e){
         userSelection = e.target.id
         userSelectionDisplay.innerHTML = `${formatted(userSelection)}`
+        // get computer selection
         getComputerSelection()
+        // update images with player and computer selections
         updateImages()
+        // Put a border around the cell of the winner
         getWinner()
     }))
 }
 
+/**
+ * Return a random selection from the 'choices' array
+ */
 function getComputerSelection(){
     computerSelection = choices[Math.floor(Math.random() * choices.length)].getAttribute("id");
     computerSelectionDisplay.innerHTML = `${formatted(computerSelection)}`
 }
 
+/**
+ * Update the player and computer images with the corresponding image
+ * of the selected option, as well as class and alt attributes
+ */
 function updateImages(){
     userChoiceImage.setAttribute("src", `./images/${userSelection}.png`)
     userChoiceImage.setAttribute("class", `images`)
@@ -51,39 +56,43 @@ function updateImages(){
     computerChoiceImage.setAttribute("alt", `Computer selected image`)
 }
 
+/**
+ * Capitalize the String parameter
+ * @param {*} word 
+ * @returns 
+ */
 function formatted(word){
     return word.substring(0, 1).toUpperCase() + word.substring(1);
 }
 
-function highlight(cell, borderType){
-    cell.style.border = `${borderType}`
+
+/**
+ * Set the css border attribute for the passed in HTML element
+ * @param {*} element 
+ * @param {*} borderStyle 
+ */
+function setBorder(element, borderStyle){
+    element.style.border = `${borderStyle}`
 }
 
 function getWinner(){
-    highlight(userCell, "none")
-    highlight(computerCell, "none")
+    // Clear any borders on user or computer cell elements
+    setBorder(userCell, "none")
+    setBorder(computerCell, "none")
+    // Check if it's a tie and update both borders to yellow
+    // If not a tie, determine winner and set winning border green
     if(userSelection === computerSelection){
-        highlight(userCell, "3px solid yellow")
-        highlight(computerCell, "3px solid yellow")
-    } else if(userSelection === "rock"){
-        if(computerSelection === "scissors"){
-            highlight(userCell, "3px solid green")
-        } else {
-            highlight(computerCell, "3px solid green")
-        }
-    }  else if(userSelection === "paper"){
-        if(computerSelection === "rock"){
-            highlight(userCell, "3px solid green")
-        } else {
-            highlight(computerCell, "3px solid green")
-        }
-    }  else if(userSelection === "scissors"){
-        if(computerSelection === "paper"){
-            highlight(userCell, "3px solid green")
-        } else {
-            highlight(computerCell, "3px solid green")
-        }
-    } 
+        setBorder(userCell, tieBorder)
+        setBorder(computerCell, tieBorder)
+    } else if(userSelection === "rock" && computerSelection === "scissors"){
+        setBorder(userCell, winnerBorder) 
+    }  else if(userSelection === "paper" && computerSelection === "rock"){
+        setBorder(userCell, winnerBorder) 
+    }  else if(userSelection === "scissors" && computerSelection === "paper"){
+        setBorder(userCell, winnerBorder) 
+    } else {
+        setBorder(computerCell, winnerBorder)
+    }
 }
 
-getUserSelection();
+play();
